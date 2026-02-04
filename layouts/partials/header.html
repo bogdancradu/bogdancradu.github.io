@@ -1,0 +1,53 @@
+<nav role="navigation" aria-label="Main navigation">
+    <div class="container">
+        <div class="nav-container">
+            <a href="{{ .Site.BaseURL }}" class="logo" aria-label="{{ .Site.Title }} - Home">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="40" height="40" fill="#00d4ff">
+                    <path d="M17.523 15.3414c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993.0001.5511-.4482.9997-.9993.9997m-11.046 0c-.5511 0-.9993-.4486-.9993-.9997s.4482-.9993.9993-.9993c.5511 0 .9993.4482.9993.9993 0 .5511-.4482.9997-.9993.9997m11.4045-6.02l1.9973-3.4592a.416.416 0 0 0-.1521-.5676.416.416 0 0 0-.5676.1521l-2.0223 3.503C15.5902 8.4213 13.8533 8 12 8s-3.5902.4213-5.1367.9501L4.841 5.447a.416.416 0 0 0-.5676-.1521.416.416 0 0 0-.1521.5676l1.9973 3.4592C2.6889 11.1867.3432 14.6589 0 18.761h24c-.3432-4.1021-2.6889-7.5743-6.1185-9.4396"/>
+                </svg>
+            </a>
+
+            <div class="nav-links-container">
+                 <ul class="nav-links" id="nav-menu">
+                    {{ range .Site.Menus.main }}
+                    <li><a href="{{ .URL }}" aria-current="{{ if or ($.IsMenuCurrent "main" .) ($.HasMenuCurrent "main" .) }}true{{ else }}false{{ end }}">{{ .Name }}</a></li>
+                    {{ end }}
+                </ul>
+            </div>
+            <style>
+                @media (min-width: 769px) {
+                    .nav-container {
+                        position: relative;
+                    }
+                    .nav-links-container {
+                        position: absolute;
+                        left: 50%;
+                        transform: translateX(-50%);
+                        display: flex;
+                        justify-content: center;
+                    }
+                }
+                @media (max-width: 768px) {
+                    .nav-links-container {
+                        display: contents; /* Let the ul behave as direct child if needed, or manage via existing mobile styles */
+                    }
+                }
+            </style>
+            <div id="local-time-container" class="lang-switcher" style="align-items: center; color: var(--text-secondary); font-size: 1rem; font-style: bold;">
+                <span id="current-time"></span>
+            </div>
+            <script>
+                function updateTime() {
+                    const now = new Date();
+                    const options = { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true };
+                    document.getElementById('current-time').textContent = now.toLocaleString('en-US', options);
+                }
+                updateTime();
+                setInterval(updateTime, 1000);
+            </script>
+            <button class="mobile-menu-btn" aria-expanded="false" aria-controls="nav-menu" aria-label="Toggle navigation menu">
+                <i class="fa-solid fa-bars" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,8 @@
+{{ $scss := resources.Get "scss/main.scss" }}
+{{ $css := $scss | css.Sass | resources.Minify | resources.Fingerprint }}
+<link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+{{ $js := resources.Get "js/main.js" }}
+{{ $jsMin := $js | resources.Minify | resources.Fingerprint }}
+<script src="{{ $jsMin.RelPermalink }}" integrity="{{ $jsMin.Data.Integrity }}" defer></script>

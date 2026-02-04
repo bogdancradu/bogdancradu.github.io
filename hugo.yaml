@@ -1,0 +1,30 @@
+baseURL: "https://bogdancradu.github.io/"
+languageCode: "en-us"
+title: "Notes on personal projects and experiments"
+theme: "nomad-tech"
+
+params:
+  author: "Bogdan Radu"
+  subtitle: "Software Developer • Lifelong Learener"
+  mantra: "\"The more you sweat in peace, the less you bleed in war.\" - Norman Schwarzkopf"
+  description: "A personal blog documenting my projects, experiments, and learnings in software development but also other areas of interest."
+  defaultTheme: auto
+  ShowReadingTime: true
+  ShowCodeCopyButtons: true
+  ShowToc: true
+
+menu:
+  main:
+    - name: Home
+      url: /
+      weight: 5
+    - name: Posts
+      url: /posts/
+      weight: 20
+    - name: Projects
+      url: /projects/
+      weight: 30
+    - name: About
+      url: /about/
+      weight: 40
+

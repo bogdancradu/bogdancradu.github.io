@@ -1,0 +1,55 @@
+{{ define "main" }}
+<section class="content-section active" style="min-height: auto; margin-top: 2.25rem; display: block; background: transparent; border: none; backdrop-filter: none; padding: 0;">
+    <div class="container">
+        <div style="display: flex; gap: 3rem; align-items: start; justify-content: center;">
+            <div class="markdown-content" style="color: var(--text-primary); line-height: 1.8; max-width: 720px; width: 100%;">
+                {{ .Content }}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mobile Responsive Styles -->
+<style>
+    .markdown-content h2 {
+        color: var(--primary-color);
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+        border-bottom: 1px solid var(--glass-border);
+        padding-bottom: 1.5rem;
+    }
+    
+    .markdown-content p {
+        margin-bottom: 1.5rem;
+        font-size: 1.05rem;
+    }
+
+    .markdown-content a {
+        color: var(--primary-color);
+        text-decoration: none;
+        border-bottom: 1px dashed var(--primary-color);
+    }
+
+    .markdown-content ul {
+        margin-bottom: 1.5rem;
+        padding-left: 1.5rem;
+    }
+
+    .markdown-content li {
+        margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 900px) {
+        .about-wrapper {
+            flex-direction: column;
+        }
+        .about-sidebar {
+            width: 100%;
+        }
+        .about-content {
+            width: 100%;
+        }
+    }
+</style>
+{{ end }}
