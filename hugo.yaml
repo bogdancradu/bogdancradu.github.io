@@ -13,6 +13,10 @@ params:
   ShowCodeCopyButtons: true
   ShowToc: true
 
+caches:
+  images:
+    dir: ":cacheDir/images"
+
 menu:
   main:
     - name: Home
