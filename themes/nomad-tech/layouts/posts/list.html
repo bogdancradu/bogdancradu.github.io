@@ -1,30 +1,38 @@
 {{ define "main" }}
-<section class="content-section" style="display: block; margin-top: 3rem;">
-    <div class="container">
-        <h2>{{ .Title }}</h2>
-        
+<section class="posts-list" style="display: block; margin-top: 3rem;">
+    <div class="container posts-list__container">
         <div class="blog-categories" style="text-align: center; margin-bottom: 2rem;">
-            <a href="/posts/" class="category-btn {{ if not .Data.Term }}active{{ end }}">{{ i18n "all_posts" }}</a>
             {{ range .Site.Taxonomies.categories }}
             <a href="{{ .Page.Permalink }}" class="category-btn">{{ .Page.Title }}</a>
             {{ end }}
         </div>
         
         <div class="blog-posts">
-            {{ $paginator := .Paginate .Pages 6 }}
+            {{ $paginator := .Paginate .Pages 1 }}
             {{ range $paginator.Pages }}
             <article class="blog-post">
-                <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
-                <div class="blog-meta">
-                    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
-                    {{ range .Params.categories }}
-                    <span class="category-tag">{{ . }}</span>
+                <time class="blog-post-date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 02, 2006" }}</time>
+                <a class="blog-post-link" href="{{ .Permalink }}">
+                    {{ $thumb := .Params.thumbnail | default .Params.image | default .Params.cover | default .Params.featured }}
+                    {{ if not $thumb }}
+                        {{ $img := findRE "<img src=\"([^\"]+)\"" .Content 1 }}
+                        {{ range $img }}
+                            {{ $thumb = . | replaceRE "<img src=\"" "" | replaceRE "\"" "" }}
+                        {{ end }}
                     {{ end }}
-                </div>
-                <p>{{ .Summary }}</p>
-                <div class="read-more-container">
-                    <a href="{{ .Permalink }}" class="btn btn-secondary">{{ i18n "read_more" }}</a>
-                </div>
+                    
+                    {{ if $thumb }}
+                    <div class="blog-post-thumb">
+                        <img src="{{ $thumb | relURL }}" alt="{{ .Title }} thumbnail" loading="lazy">
+                    </div>
+                    {{ end }}
+                    <div class="blog-post-body">
+                        <h3>{{ .Title }}</h3>
+                        {{ with .Params.subtitle }}
+                        <p class="blog-post-subtitle">{{ . }}</p>
+                        {{ end }}
+                    </div>
+                </a>
             </article>
             {{ end }}
         </div>

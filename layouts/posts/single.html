@@ -1,0 +1,277 @@
+{{ define "main" }}
+<article class="post-article">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,400&family=Source+Sans+3:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        .post-article {
+            --post-text: #f4f4f4;
+            --post-muted: rgba(244, 244, 244, 0.7);
+            --post-accent: #ff7a2f;
+            --post-accent-light: rgba(255, 122, 47, 0.18);
+            --post-border: rgba(255, 255, 255, 0.12);
+            --post-code-bg: #0f0f12;
+            --post-code-text: #f8f8f2;
+
+            width: min(100%, 960px);
+            margin: 0 auto;
+            padding: 72px clamp(20px, 6vw, 96px) 110px;
+            color: var(--post-text);
+            background: transparent;
+            border-radius: 0;
+            box-shadow: none;
+            font-family: 'Source Sans 3', -apple-system, sans-serif;
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        .post-article__header {
+            margin-bottom: 56px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid var(--post-border);
+        }
+
+        .post-article__meta {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 24px;
+            font-size: 13px;
+            color: var(--post-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .post-article__date::after {
+            content: '·';
+            margin-left: 12px;
+        }
+
+        .post-article__tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .post-article__tag {
+            background: var(--post-accent-light);
+            color: var(--post-accent);
+            padding: 2px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .post-article__tag:hover {
+            opacity: 0.8;
+        }
+
+        .post-article__title {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: clamp(32px, 6vw, 48px);
+            font-weight: 700;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 24px;
+        }
+
+        .post-article__subtitle {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 22px;
+            font-weight: 400;
+            font-style: italic;
+            color: var(--post-muted);
+            line-height: 1.5;
+        }
+
+        .post-article__content h2 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 28px;
+            font-weight: 600;
+            margin-top: 56px;
+            margin-bottom: 20px;
+            letter-spacing: -0.01em;
+        }
+
+        .post-article__content h3 {
+            font-family: 'Fraunces', Georgia, serif;
+            font-size: 22px;
+            font-weight: 600;
+            margin-top: 40px;
+            margin-bottom: 16px;
+        }
+
+        .post-article__content p {
+            margin-bottom: 20px;
+        }
+
+        .post-article__content > p:first-of-type {
+            font-size: 20px;
+            color: var(--post-muted);
+        }
+
+        .post-article__content a {
+            color: var(--post-accent);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            transition: opacity 0.2s;
+        }
+
+        .post-article__content a:hover {
+            opacity: 0.7;
+        }
+
+        .post-article__content ul,
+        .post-article__content ol {
+            margin-bottom: 20px;
+            padding-left: 28px;
+        }
+
+        .post-article__content li {
+            margin-bottom: 8px;
+        }
+
+        .post-article__content li::marker {
+            color: var(--post-accent);
+        }
+
+        .post-article__content code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.88em;
+            background: rgba(255, 255, 255, 0.12);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .post-article__content pre {
+            position: relative;
+            background: var(--post-code-bg);
+            color: var(--post-code-text);
+            border-radius: 12px;
+            padding: 42px 20px 20px;
+            overflow-x: auto;
+            margin: 28px 0;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        .post-article__content pre::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .post-article__content pre::after {
+            content: "";
+            position: absolute;
+            top: 9px;
+            left: 14px;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ff5f57;
+            box-shadow: 16px 0 0 #febc2e, 32px 0 0 #28c840;
+        }
+
+        .post-article__content pre code {
+            background: none;
+            color: inherit;
+            padding: 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .post-article__content blockquote {
+            background: linear-gradient(135deg, rgba(255, 122, 47, 0.14) 0%, rgba(255, 255, 255, 0.03) 100%);
+            border-left: 4px solid var(--post-accent);
+            padding: 20px 24px;
+            margin: 32px 0;
+            border-radius: 0 12px 12px 0;
+            color: var(--post-text);
+        }
+
+        .post-article__content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 32px 0;
+            font-size: 16px;
+        }
+
+        .post-article__content th,
+        .post-article__content td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--post-border);
+        }
+
+        .post-article__content th {
+            font-family: 'Fraunces', Georgia, serif;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .post-article__content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin: 28px 0;
+        }
+
+        .post-article__content hr {
+            border: none;
+            border-top: 1px solid var(--post-border);
+            margin: 56px 0;
+        }
+
+        @media (max-width: 720px) {
+            .post-article {
+                padding: 48px 20px 80px;
+            }
+
+            .post-article__content table {
+                font-size: 14px;
+            }
+
+            .post-article__content th,
+            .post-article__content td {
+                padding: 12px;
+            }
+        }
+    </style>
+
+    <header class="post-article__header">
+        <div class="post-article__meta">
+            <span class="post-article__date">
+                <time datetime="{{ .Date.Format "2006-01-02" }}">
+                    {{ .Date.Format "January 2, 2006" }}
+                </time>
+            </span>
+            {{ with .Params.tags }}
+            <div class="post-article__tags">
+                {{ range . }}
+                <a class="post-article__tag" href="{{ $.Site.BaseURL }}tags/{{ . | urlize }}/">{{ . }}</a>
+                {{ end }}
+            </div>
+            {{ end }}
+        </div>
+        <h1 class="post-article__title">{{ .Title }}</h1>
+        {{ if .Params.subtitle }}
+        <p class="post-article__subtitle">{{ .Params.subtitle }}</p>
+        {{ else if .Params.description }}
+        <p class="post-article__subtitle">{{ .Params.description }}</p>
+        {{ end }}
+    </header>
+
+    <div class="post-article__content">
+        {{ .Content }}
+    </div>
+</article>
+{{ end }}
