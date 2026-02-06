@@ -5,7 +5,7 @@ theme: "nomad-tech"
 
 params:
   author: "Bogdan Radu"
-  subtitle: "Software Developer • Lifelong Learener"
+  subtitle: "Software Developer • Lifelong Learner"
   mantra: "\"The more you sweat in peace, the less you bleed in war.\" - Norman Schwarzkopf"
   description: "A personal blog documenting my projects, experiments, and learnings in software development but also other areas of interest."
   defaultTheme: auto

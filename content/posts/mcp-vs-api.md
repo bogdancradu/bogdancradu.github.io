@@ -7,9 +7,9 @@ date: 2026-02-04
 
 ## Where this post came from
 
-Honestly? I started writing this because i was confused.
+Honestly? I started writing this because I was confused.
 
-I'd seen MCP mentioned in a few places and I *kind of* got the vibe, but the mechanics were fuzzy. So i did what i always do when something doesn't click: i read the docs, compared MCP to something i already understood (good old APIs), and then i built a tiny MCP server and client to watch it work end-to-end. This post is what i wish someone had handed me before i started.
+I'd seen MCP mentioned in a few places and I *kind of* got the vibe, but the mechanics were fuzzy. So I did what I always do when something doesn't click: I read the docs, compared MCP to something I already understood (good old APIs), and then I built a tiny MCP server and client to watch it work end-to-end. This post is what I wish someone had handed me before I started.
 
 ---
 
@@ -78,10 +78,10 @@ So the real question is: *why do we even need MCP?*
 
 MCP was designed around how agents actually think:
 
-- *"What tools do i have?"*
+- *"What tools do I have?"*
 - *"What inputs do they need?"*
-- *"What data can i fetch for context?"*
-- *"How do i call this thing safely and consistently?"*
+- *"What data can I fetch for context?"*
+- *"How do I call this thing safely and consistently?"*
 
 APIs *can* be used by agents, sure. But they weren't built with agent discovery and tool schemas as first-class ideas.
 
@@ -138,20 +138,20 @@ This is more of a "well-known discovery namespace" a broader location that could
 
 ---
 
-## When would i use which?
+## When would I use which?
 
 Here's my mental model for real projects:
 
-- If i want *any* client to talk to my system (web apps, mobile apps, backend services, partner integrations), i **expose an API**. That's still the universal contract.
-- If i want *agents* to plug in cleanly with runtime discovery, consistent tool schemas, and fewer bespoke adapters i **add MCP** on top.
+- If I want *any* client to talk to my system (web apps, mobile apps, backend services, partner integrations), I **expose an API**. That's still the universal contract.
+- If I want *agents* to plug in cleanly with runtime discovery, consistent tool schemas, and fewer bespoke adapters I **add MCP** on top.
 
 > **TL;DR:** APIs are the base layer. MCP makes them nicer for agents.
 
 ---
 
-## The part where i actually built something
+## The part where I actually built something
 
-After rtfm, i wanted to see MCP in action. To do that, i built a small MCP server/client setup to explore:
+After rtfm, I wanted to see MCP in action. To do that, I built a small MCP server/client setup to explore:
 
 - How tools get advertised
 - What discovery actually feels like
