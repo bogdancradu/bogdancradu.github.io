@@ -273,8 +273,10 @@ class NomadTheme {
 
     overlay.appendChild(img);
     overlay.appendChild(caption);
+    // Put the close button inside the overlay so it is hidden/shown with it
+    close.style.display = 'none';
+    overlay.appendChild(close);
     document.body.appendChild(overlay);
-    document.body.appendChild(close);
 
     function open(src, alt, captionText) {
       img.src = src;
