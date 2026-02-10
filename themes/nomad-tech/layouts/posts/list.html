@@ -8,7 +8,7 @@
         </div>
         
         <div class="blog-posts">
-            {{ $paginator := .Paginate .Pages 1 }}
+            {{ $paginator := .Paginate .Pages 10 }}
             {{ range $paginator.Pages }}
             <article class="blog-post">
                 <time class="blog-post-date" datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 02, 2006" }}</time>
