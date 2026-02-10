@@ -9,6 +9,7 @@ class NomadTheme {
     this.setupParticles();
     this.setupAccessibility();
     this.setupTouchGestures();
+    this.setupLightbox();
   }
 
   // Navigation
@@ -103,8 +104,10 @@ class NomadTheme {
         }
       });
     });
-
-    observer.observe(document.querySelector('.hero'));
+    const heroEl = document.querySelector('.hero');
+    if (heroEl) {
+      observer.observe(heroEl);
+    }
   }
 
   createParticles() {
@@ -231,6 +234,101 @@ class NomadTheme {
     if (this.liveRegion) {
       this.liveRegion.textContent = `Navigated to ${sections[nextIndex]} section`;
     }
+  }
+
+  // Simple lightbox for image previews
+  setupLightbox() {
+    console.log('NomadTheme: setupLightbox initialized');
+    // Inject minimal styles
+    const style = document.createElement('style');
+    style.textContent = `
+      .lightbox-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);display:flex;align-items:center;justify-content:center;z-index:10000;opacity:0;transition:opacity .18s;flex-direction:column}
+      .lightbox-overlay.visible{opacity:1}
+      .lightbox-img{max-width:92%;max-height:80vh;box-shadow:0 8px 24px rgba(0,0,0,.6);border-radius:6px}
+      .lightbox-caption{color:#ddd;margin-top:12px;font-size:14px;text-align:center;max-width:92%;line-height:1.4}
+      .lightbox-close{position:fixed;top:18px;right:18px;color:#fff;font-size:28px;background:transparent;border:none;cursor:pointer;z-index:10001}
+      img.lightbox-enabled{cursor:zoom-in}
+    `;
+    document.head.appendChild(style);
+
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'lightbox-overlay';
+    overlay.setAttribute('role','dialog');
+    overlay.setAttribute('aria-hidden','true');
+    overlay.style.display = 'none';
+
+    const img = document.createElement('img');
+    img.className = 'lightbox-img';
+    img.alt = '';
+
+    const caption = document.createElement('div');
+    caption.className = 'lightbox-caption';
+    caption.style.display = 'none';
+
+    const close = document.createElement('button');
+    close.className = 'lightbox-close';
+    close.innerHTML = '&times;';
+    close.setAttribute('aria-label','Close image preview');
+
+    overlay.appendChild(img);
+    overlay.appendChild(caption);
+    document.body.appendChild(overlay);
+    document.body.appendChild(close);
+
+    function open(src, alt, captionText) {
+      img.src = src;
+      img.alt = alt || '';
+      if (captionText) {
+        caption.textContent = captionText;
+        caption.style.display = 'block';
+      } else {
+        caption.textContent = '';
+        caption.style.display = 'none';
+      }
+      overlay.style.display = 'flex';
+      // small timeout to allow transition
+      requestAnimationFrame(() => overlay.classList.add('visible'));
+      overlay.setAttribute('aria-hidden','false');
+      close.style.display = 'block';
+      close.focus();
+    }
+
+    function closeOverlay() {
+      overlay.classList.remove('visible');
+      overlay.setAttribute('aria-hidden','true');
+      close.style.display = 'none';
+      // wait for transition then hide
+      setTimeout(() => { overlay.style.display = 'none'; img.src = ''; }, 200);
+    }
+
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeOverlay();
+    });
+    close.addEventListener('click', closeOverlay);
+    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeOverlay(); });
+
+    // Enable on useful images: thumbnails and post content images
+    const enableLightboxOn = () => {
+      // Only enable lightbox for images inside a single post content
+      document.querySelectorAll('.post-article__content img').forEach(el => {
+        if (el.classList.contains('no-lightbox')) return;
+        if (el.classList.contains('lightbox-enabled')) return;
+        el.classList.add('lightbox-enabled');
+        el.addEventListener('click', (ev) => {
+          ev.preventDefault();
+          ev.stopPropagation();
+          const src = el.getAttribute('data-large-src') || el.src;
+          const captionText = el.getAttribute('data-caption') || el.alt || el.title || '';
+          open(src, el.alt || el.title || '', captionText);
+        });
+      });
+    };
+
+    // Run once now and when DOM changes (e.g., lazy load)
+    enableLightboxOn();
+    const observer = new MutationObserver(enableLightboxOn);
+    observer.observe(document.body, { childList: true, subtree: true });
   }
 
   // Blog post filtering

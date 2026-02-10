@@ -151,7 +151,8 @@ There's also a `fetch_models.py` utility in the repo if you want to poke around 
 
 ## Things that tripped me up (so they don't trip you)
 
-**"UnsupportedParamsError: github_copilot does not support parameters: ['thinking']"**
+*"UnsupportedParamsError: github_copilot does not support parameters: ['thinking']"*
+
 Some clients send extra parameters that the upstream Copilot provider doesn't recognize. The fix is adding `drop_params: true` to your `config.yaml`, which tells LiteLLM to strip anything the target model doesn't understand. Alternatively, you can write a small callback to selectively clean fields for specific fallback targets.
 
 **Fallbacks not firing**
