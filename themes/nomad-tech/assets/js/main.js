@@ -7,7 +7,6 @@ class NomadTheme {
   init() {
     this.setupNavigation();
     this.setupParticles();
-    this.setupAccessibility();
     this.setupTouchGestures();
     this.setupLightbox();
   }
@@ -124,61 +123,7 @@ class NomadTheme {
     }
   }
 
-  // Accessibility improvements
-  setupAccessibility() {
-    // Skip link
-    const skipLink = document.createElement('a');
-    skipLink.href = '#main';
-    skipLink.textContent = 'Skip to main content';
-    skipLink.className = 'skip-link';
-    skipLink.style.cssText = `
-      position: absolute;
-      top: -40px;
-      left: 6px;
-      background: var(--primary-color);
-      color: white;
-      padding: 8px;
-      text-decoration: none;
-      border-radius: 4px;
-      z-index: 1001;
-      transition: top 0.3s;
-    `;
-    
-    skipLink.addEventListener('focus', () => {
-      skipLink.style.top = '6px';
-    });
-    
-    skipLink.addEventListener('blur', () => {
-      skipLink.style.top = '-40px';
-    });
-    
-    document.body.insertBefore(skipLink, document.body.firstChild);
-
-    // ARIA labels for interactive elements
-    document.querySelectorAll('.category-btn').forEach(btn => {
-      btn.setAttribute('role', 'button');
-      btn.setAttribute('aria-pressed', btn.classList.contains('active'));
-    });
-
-    // Live region for dynamic content
-    const liveRegion = document.createElement('div');
-    liveRegion.setAttribute('aria-live', 'polite');
-    liveRegion.setAttribute('aria-atomic', 'true');
-    liveRegion.className = 'sr-only';
-    liveRegion.style.cssText = `
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
-    `;
-    document.body.appendChild(liveRegion);
-    this.liveRegion = liveRegion;
-  }
+  
 
   // Touch gestures for mobile
   setupTouchGestures() {

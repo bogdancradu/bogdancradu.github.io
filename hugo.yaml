@@ -25,10 +25,7 @@ menu:
     - name: Posts
       url: /posts/
       weight: 20
-    - name: Projects
-      url: /projects/
-      weight: 30
     - name: About
       url: /about/
-      weight: 40
+      weight: 30
 
